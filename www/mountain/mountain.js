@@ -29,5 +29,59 @@ const mountain = {
 				'method': 'delete',
 			}).then(res => res.json());
 		},
-	}
+	},
+	'model': {
+		'get': async (table, id) => {
+			if(!table)
+				throw "No table provided";
+
+			return fetch('/api/' + table + '/' + id, {
+				'method': 'post',
+			}).then(res => res.json());
+		},
+		'list': async (table, filter) => {
+			if(!table)
+				throw "No table provided";
+
+			return fetch('/api/' + table, {
+				'method': 'post',
+				'headers': {
+					'Content-Type': 'application/json',
+				},
+				'body': JSON.stringify(filter),
+			}).then(res => res.json());
+		},
+		'put': async (table, data) => {
+			if(!table)
+				throw "No table provided";
+
+			return fetch('/api/' + table, {
+				'method': 'put',
+				'headers': {
+					'Content-Type': 'application/json',
+				},
+				'body': JSON.stringify(data),
+			}).then(res => res.text());
+		},
+		'set': async (table, id, data) => {
+			if(!table)
+				throw "No table provided";
+
+			return fetch('/api/' + table + '/' + id + '/set', {
+				'method': 'post',
+				'headers': {
+					'Content-Type': 'application/json',
+				},
+				'body': JSON.stringify(data),
+			}).then(res => res.text());
+		},
+		'delete': async (table, id) => {
+			if(!table)
+				throw "No table provided";
+
+			return fetch('/api/' + table + '/' + id, {
+				'method': 'delete',
+			}).then(res => res.text());
+		},
+	},
 };

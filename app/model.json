@@ -1,0 +1,19 @@
+{
+  "tables": [
+    {
+      "name": "table1",
+      "columns": [
+        { "name": "col1", "type": "TEXT" },
+        { "name": "col2", "type": "INT"}
+      ],
+      "expose": [ "select", "insert", "update", "delete" ]
+    },
+    {
+      "name": "table2",
+      "columns": [
+        { "name": "col1", "type": "INT" },
+        { "name": "col2", "type": "TEXT" }
+      ]
+    }
+  ]
+}
