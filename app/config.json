@@ -1,0 +1,6 @@
+{
+  "server": {
+    "secret": "Mountain",
+    "port": 3030
+  }
+}

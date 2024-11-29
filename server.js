@@ -1,11 +1,15 @@
 const express = require('express');
 const session = require('express-session');
 
+const app = {
+	'config': require('./app/config.json'),
+};
+
 const ex = express();
 ex.use(session({
 	resave: false,
 	saveUninitialized: false,
-	secret: 'Mountain',
+	secret: app.config.server.secret,
 }));
 
 ex.use(express.urlencoded({ extended: true }));
@@ -15,6 +19,6 @@ ex.get('/', (req, res) => {
 	res.redirect('index.html');
 });
 
-ex.listen(3030, () => {
-	console.log('Mountain opened on localhost:3030');
+ex.listen(app.config.server.port, () => {
+	console.log('Mountain opened on http://localhost:' + app.config.server.port);
 });
