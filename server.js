@@ -4,6 +4,7 @@ const session = require('express-session');
 const app = {
 	'config': require('./app/config.json'),
 	'model': require('./app/model.json'),
+	'app': require('./app/app.js'),
 };
 
 const server = {
@@ -56,6 +57,9 @@ if(server.user.setup(ex, server.model, server.messenger, modelCallback))
 
 if(server.model.apply(app.model, modelCallback))
 	throw "Failed to apply application model.";
+
+if(app.app.setup(ex, model))
+	throw "Failed to setup application.";
 
 ex.get('/', (req, res) => {
 	res.redirect('index.html');
