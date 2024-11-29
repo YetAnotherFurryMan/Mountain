@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Mountain User</title>
+		<meta charset="UTF-8" />
+	</head>
+	<body>
+		<button onclick="logout()">LOGOUT</button>
+		<section id="out"></section>
+		<script src="mountain.js"></script>
+		<script>
+			let out = document.getElementById('out');
+
+			function refresh(){
+				mountain.user.get().then(res => {
+					if(res == '')
+						res = 'You are not logged in.';
+					out.innerHTML = res;
+				});
+			}
+
+			function logout(){
+				mountain.user.logout().then(res => {
+					refresh();
+				});
+			}
+			
+			refresh();
+		</script>
+	</body>
+</html>

@@ -84,4 +84,25 @@ const mountain = {
 			}).then(res => res.text());
 		},
 	},
+	'user': {
+		'login': async (login, password) => {
+			return fetch('/login', {
+				'method': 'post',
+				'headers': {
+					'Content-Type': 'application/json',
+				},
+				'body': JSON.stringify({ 'login': login, 'pass': password}),
+			});
+		},
+		'logout': async () => {
+			return fetch('/logout', {
+				'method': 'post',
+			});
+		},
+		'get': async () => {
+			return fetch('/username', {
+				'method': 'post',
+			}).then(res => res.text());
+		},
+	},
 };

@@ -37,6 +37,8 @@ function setup(ex, model, db, restrict){
 	g_model.update = {};
 	g_model.delete = {};
 
+	exports.model = g_model;
+
 	return false;
 }
 
