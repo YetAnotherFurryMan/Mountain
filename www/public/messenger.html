@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Mountain Messenger</title>
+		<meta charset="UTF-8" />
+	</head>
+	<body>
+		<form>
+			<input type="text" placeholder="TEXT" id="text" />
+			<input type="text" placeholder="TYPE" id="type" />
+			<button onclick="put()" type="button">PUT</button>
+		</form>
+		<button onclick="pop()">POP</button>
+		<button onclick="clear2()">CLEAR</button>
+		<section id="out"></section>
+		<section id="list"></section>
+		<script src="mountain.js"></script>
+		<script>
+			let out = document.getElementById('out');
+
+			function refresh(){
+				mountain.messenger.list().then(res => {
+					let list = document.getElementById('list');
+					list.innerHTML = '';
+
+					if(res.messages){
+						for(let e of res.messages){
+							let el = document.createElement('p');
+							el.style.borderTop = '5px solid gray';
+							el.innerHTML = e.type + ': ' + e.text;
+							list.appendChild(el);
+						}
+					}
+				});
+			}
+
+			function put(){
+				let text = document.getElementById('text').value;
+				let type = document.getElementById('type').value;
+				mountain.messenger.put(text, type).then(res => {
+					out.innerHTML = res;
+					refresh();
+				});
+			}
+
+			function pop(){
+				mountain.messenger.pop().then(res => {
+					out.innerHTML = JSON.stringify(res);
+					refresh();
+				});
+			}
+
+			function clear2(){
+				mountain.messenger.clear().then(res => {
+					out.innerHTML = JSON.stringify(res);
+					refresh();
+				});
+			}
+
+			refresh();
+		</script>
+	</body>
+</html>

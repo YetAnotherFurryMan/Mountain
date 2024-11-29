@@ -5,6 +5,10 @@ const app = {
 	'config': require('./app/config.json'),
 };
 
+const server = {
+	'messenger': require('./server/messenger.js'),
+};
+
 const ex = express();
 ex.use(session({
 	resave: false,
@@ -13,7 +17,12 @@ ex.use(session({
 }));
 
 ex.use(express.urlencoded({ extended: true }));
+ex.use(express.json());
 ex.use(express.static('www/public'));
+ex.use(express.static('www/mountain'));
+
+if(server.messenger.setup(ex))
+	throw "Failed to setup messenger.";
 
 ex.get('/', (req, res) => {
 	res.redirect('index.html');
