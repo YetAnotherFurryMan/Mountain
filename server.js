@@ -24,13 +24,27 @@ function modelCallback(table, err, op){
 }
 
 function restrict(req, res, next){
-	if(req.session.user){
+	if(app.config.restrict == 'no'){
+		next();
+	} else if(req.session.user){
 		next();
 	} else {
 		server.messenger.put(req, 'Access denided.', 'error');
 		res.sendStatus(401);
 	}
 }
+
+if(!app.config.www)
+	app.config.www = {};
+
+if(!app.config.www.www)
+	app.config.www.www = 'www';
+
+if(!app.config.www.public)
+	app.config.www.public = 'public';
+
+if(!app.config.www.private)
+	app.config.www.private = 'private';
 
 const ex = express();
 ex.use(session({
@@ -41,9 +55,9 @@ ex.use(session({
 
 ex.use(express.urlencoded({ extended: true }));
 ex.use(express.json());
-ex.use(express.static('www/public'));
 ex.use(express.static('www/mountain'));
-ex.use('r', restrict, express.static('www/private'));
+ex.use(express.static(app.config.www.www + '/' + app.config.www.public));
+ex.use('r', restrict, express.static(app.config.www.www + '/' + app.config.www.private));
 
 if(server.messenger.setup(ex))
 	throw "Failed to setup messenger.";
