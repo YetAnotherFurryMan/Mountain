@@ -9,7 +9,7 @@ Mountain is a simple, yet powerful, framework/template for web applications. I m
 ## Quick start
 ```bash
 # Clone repo
-git clone hrrps://github.com/YetAnotherFurryMan/Mountain.git [Your App Name]
+git clone https://github.com/YetAnotherFurryMan/Mountain.git [Your App Name]
 cd [Your App Name]
 # Install dependences
 npm install
