@@ -57,7 +57,7 @@ ex.use(express.urlencoded({ extended: true }));
 ex.use(express.json());
 ex.use(express.static('www/mountain'));
 ex.use(express.static(app.config.www.www + '/' + app.config.www.public));
-ex.use('r', restrict, express.static(app.config.www.www + '/' + app.config.www.private));
+ex.use('/r', restrict, express.static(app.config.www.www + '/' + app.config.www.private));
 
 if(server.messenger.setup(ex))
 	throw "Failed to setup messenger.";
