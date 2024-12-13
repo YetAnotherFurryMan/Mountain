@@ -42,7 +42,7 @@ function setup(ex, model, db, restrict){
 	return false;
 }
 
-function apply(schema, callback){
+function apply(schema, callback, errCallback){
 	if(!schema)
 		return true;
 
@@ -52,7 +52,7 @@ function apply(schema, callback){
 				return true;
 			if(makeModel(table))
 				return true;
-			if(makeAPI(table))
+			if(makeAPI(table, errCallback))
 				return true;
 		}
 	}
@@ -66,6 +66,11 @@ function makeTable(table, callback){
 
 	if(!callback)
 		callback = (name, err) => { defaultCallback(err); };
+
+	if(table.name.startsWith('mountain_') || table.name == 'order'){
+		callback(table.name, 'Name is forbidden.');
+		return true;
+	}
 
 	dbSection((db) => {
 		db.all('SELECT * FROM sqlite_master WHERE name = ?;', [table.name], (err, rows) => {
@@ -217,7 +222,47 @@ function makeModel(table){
 				x.push(filter.id);
 			}
 
-			// TODO: Add ORDER BY
+			if(filter.order){
+				if(!Array.isArray(filter.order))
+					filter.order = [filter.order];
+
+				and = ' ORDER BY ';
+
+				for(let order of filter.order){
+					if(typeof order === 'object' && !Array.isArray(order)){
+						if(!order.name || !order.type){
+							callback('Incomplite order object.');
+							return;
+						}
+					} else{
+						order = {name: order, type: 'ASC'};
+					}
+
+					if(!['ASC', 'DESC'].includes(order.type)){
+						callback('Bad order type: ' + order.type);
+						return;
+					}
+
+					if(order.name != 'id'){
+						let found = false;
+						for(let col of table.columns){
+							if(col.name == order.name){
+								found = true;
+								break;
+							}
+						}
+						if(!found){
+							callback('Bad order name: ' + order.name);
+							return;
+						}
+					}
+					
+					sql += and + order.name + ' ' + order.type;
+
+					and = ', ';
+				}
+			}
+
 			// TODO: Add CONSTRUCT pseudo-columns
 			
 			sql += ';';
@@ -257,7 +302,10 @@ function makeModel(table){
 		sql = sql.slice(0, -2) + ';';
 
 		dbSection(db => {
-			db.run(sql, x, callback);
+			db.run(sql, x, err => {
+				if(err)
+					callback(err);
+			}).all('SELECT last_insert_rowid() as id;', [], (err, id) => callback(err, id[0].id));
 		});
 	};
 
@@ -363,14 +411,14 @@ function makeAPI(table, callback){
 	if(table.expose.includes('insert')){
 		console.log('PUT /api/' + table.name);
 		g_ex.put('/api/' + table.name, g_restrict, (req, res) => {
-			res.setHeader('Content-Type', 'text/plain');
-			g_model.insert[table.name](req.body, (err) => {
+			res.setHeader('Content-Type', 'application/json');
+			g_model.insert[table.name](req.body, (err, id) => {
 				if(err){
 					callback(err);
-					res.send('ERROR');
+					res.send('{"status":"ERROR"}');
 					return;
 				}
-				res.send('OK');
+				res.send(JSON.stringify({status: 'OK', id: id}));
 			});
 		});
 	}

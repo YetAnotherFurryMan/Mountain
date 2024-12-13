@@ -23,6 +23,11 @@ function modelCallback(table, err, op){
 		console.log('Loaded: ' + table);
 }
 
+function modelErrorCallback(err){
+	if(err)
+		server.messenger.put('ERROR', err);
+}
+
 function restrict(req, res, next){
 	if(app.config.restrict == 'no'){
 		next();
@@ -69,7 +74,7 @@ if(server.model.setup(ex, model, app.config.db, restrict))
 if(server.user.setup(ex, server.model, server.messenger, modelCallback))
 	throw "Failed to setup user.";
 
-if(server.model.apply(app.model, modelCallback))
+if(server.model.apply(app.model, modelCallback, modelErrorCallback))
 	throw "Failed to apply application model.";
 
 if(app.app.setup(ex, model))
