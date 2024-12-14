@@ -11,8 +11,8 @@ const mountain = {
 			}).then(res => res.json());
 		},
 		'put': async (text, type) => {
-			return fetch('/message', {
-				'method': 'put',
+			return fetch('/message/put', {
+				'method': 'post',
 				'headers': {
 					'Content-Type': 'application/json',
 				},

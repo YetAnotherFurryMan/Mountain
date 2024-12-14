@@ -74,6 +74,14 @@ function setup(ex){
 			res.send('OK');
 	});
 
+	ex.post('/message/put', (req, res) => {
+		res.setHeader('Content-Type', 'text/plain');
+		if(put(req, req.body.text, req.body.type))
+			res.send('ERROR');
+		else
+			res.send('OK');
+	});
+
 	ex.delete('/message', (req, res) => {
 		res.setHeader('Constnt-Type', 'application/json');
 		res.send(JSON.stringify(pop(req)));
