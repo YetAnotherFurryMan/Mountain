@@ -387,10 +387,10 @@ function makeAPI(table, callback){
 			g_model.select[table.name](req.body, (err, rows) => {
 				if(err){
 					callback(err);
-					res.send('[]');
+					res.send('{"status":"ERROR"}');
 					return;
 				}
-				res.send(JSON.stringify(rows));
+				res.send(JSON.stringify({status: 'OK', data: rows}));
 			});
 		});
 
@@ -400,17 +400,16 @@ function makeAPI(table, callback){
 			g_model.select[table.name]({id: req.params.id}, (err, rows) => {
 				if(err){
 					callback(err);
-					res.send('{}');
+					res.send('{"status":"ERROR"}');
 					return;
 				}
-				res.send(JSON.stringify(rows[0]));
+				res.send(JSON.stringify({status: 'OK', data: rows[0]}));
 			});
 		});
 	}
 
 	if(table.expose.includes('insert')){
-		console.log('PUT /api/' + table.name);
-		g_ex.put('/api/' + table.name, g_restrict, (req, res) => {
+		const handler = (req, res) => {
 			res.setHeader('Content-Type', 'application/json');
 			g_model.insert[table.name](req.body, (err, id) => {
 				if(err){
@@ -420,20 +419,25 @@ function makeAPI(table, callback){
 				}
 				res.send(JSON.stringify({status: 'OK', id: id}));
 			});
-		});
+		};
+
+		console.log('PUT /api/' + table.name);
+		g_ex.put('/api/' + table.name, g_restrict, handler);
+		console.log('POST /api/' + table.name + '/put');
+		g_ex.post('/api/' + table.name + '/put', g_restrict, handler);
 	}
 	
 	if(table.expose.includes('update')){
 		console.log('POST /api/' + table.name + '/id/set');
 		g_ex.post('/api/' + table.name + '/:id/set', g_restrict, (req, res) => {
-			res.setHeader('Content-Type', 'text/plain');
+			res.setHeader('Content-Type', 'application/json');
 			g_model.update[table.name](req.params.id, req.body, (err) => {
 				if(err){
 					callback(err);
-					res.send('ERROR');
+					res.send('{"status":"ERROR"}');
 					return;
 				}
-				res.send('OK');
+				res.send('{"status":"OK"}');
 			});
 		});
 	}
@@ -441,14 +445,14 @@ function makeAPI(table, callback){
 	if(table.expose.includes('delete')){
 		console.log('DELETE /api/' + table.name + '/id');
 		g_ex.delete('/api/' + table.name + '/:id', g_restrict, (req, res) => {
-			res.setHeader('Content-Type', 'text/plain');
+			res.setHeader('Content-Type', 'application/json');
 			g_model.delete[table.name](req.params.id, (err) => {
 				if(err){
 					callback(err);
-					res.send('ERROR');
+					res.send('{"status":"ERROR"}');
 					return;
 				}
-				res.send('OK');
+				res.send('{"status":"OK"}');
 			});
 		});
 	}

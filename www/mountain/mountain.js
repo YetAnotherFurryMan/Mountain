@@ -17,7 +17,7 @@ const mountain = {
 					'Content-Type': 'application/json',
 				},
 				'body': JSON.stringify({ 'text': text, 'type': type }),
-			}).then(res => res.text());
+			}).then(res => res.json());
 		},
 		'pop': async () => {
 			return fetch('/message', {
@@ -55,13 +55,13 @@ const mountain = {
 			if(!table)
 				throw "No table provided";
 
-			return fetch('/api/' + table, {
-				'method': 'put',
+			return fetch('/api/' + table + '/put', {
+				'method': 'post',
 				'headers': {
 					'Content-Type': 'application/json',
 				},
 				'body': JSON.stringify(data),
-			}).then(res => res.text());
+			}).then(res => res.json());
 		},
 		'set': async (table, id, data) => {
 			if(!table)
@@ -73,7 +73,7 @@ const mountain = {
 					'Content-Type': 'application/json',
 				},
 				'body': JSON.stringify(data),
-			}).then(res => res.text());
+			}).then(res => res.json());
 		},
 		'delete': async (table, id) => {
 			if(!table)
@@ -81,7 +81,7 @@ const mountain = {
 
 			return fetch('/api/' + table + '/' + id, {
 				'method': 'delete',
-			}).then(res => res.text());
+			}).then(res => res.json());
 		},
 	},
 	'user': {
