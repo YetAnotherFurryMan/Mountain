@@ -11,6 +11,7 @@ const server = {
 	'messenger': require('./server/messenger.js'),
 	'model': require('./server/model.js'),
 	'user': require('./server/user.js'),
+	'theme': require('./server/theme.js'),
 };
 
 function modelCallback(table, err, op){
@@ -51,6 +52,9 @@ if(!app.config.www.public)
 if(!app.config.www.private)
 	app.config.www.private = 'private';
 
+if(!app.config.www.css)
+	app.config.www.css = 'css';
+
 const ex = express();
 ex.use(session({
 	resave: false,
@@ -62,6 +66,7 @@ ex.use(express.urlencoded({ extended: true }));
 ex.use(express.json());
 ex.use(express.static('www/mountain'));
 ex.use(express.static(app.config.www.www + '/' + app.config.www.public));
+ex.use('/css', express.static(app.config.www.www + '/' + app.config.www.css));
 ex.use('/r', restrict, express.static(app.config.www.www + '/' + app.config.www.private));
 
 if(server.messenger.setup(ex))
@@ -76,6 +81,9 @@ if(server.user.setup(ex, server.model, server.messenger, modelCallback))
 
 if(server.model.apply(app.model, modelCallback, modelErrorCallback))
 	throw "Failed to apply application model.";
+
+if(server.theme.setup(ex, app.config.themes))
+	throw "Failed to setup themes.";
 
 if(app.app.setup(ex, model))
 	throw "Failed to setup application.";

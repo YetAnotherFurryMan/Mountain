@@ -105,4 +105,25 @@ const mountain = {
 			}).then(res => res.text());
 		},
 	},
+	'theme': {
+		'get': async () => {
+			return fetch('/theme', {
+				'method': 'post',
+			}).then(res => res.json());
+		},
+		'list': async () => {
+			return fetch('/themes', {
+				'method': 'post',
+			}).then(res => res.json());
+		},
+		'put': async (theme, variant) => {
+			return fetch('/theme', {
+				'method': 'put',
+				'headers': {
+					'Content-Type': 'application/json',
+				},
+				'body': JSON.stringify({ 'theme': theme, 'variant': variant }),
+			}).then(res => res.text());
+		},
+	},
 };
