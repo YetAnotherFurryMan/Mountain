@@ -29,7 +29,7 @@
 					return;
 				}
 
-				mountain.model.list(table).then(res => {
+				mountain.model.list(table).then(res => res.data).then(res => {
 					let list = document.getElementById('list');
 					list.innerHTML = '';
 
@@ -52,14 +52,14 @@
 				}
 
 				mountain.model.put(table, {'col1': col1, 'col2': col2}).then(res => {
-					out.innerHTML = res;
+					out.innerHTML = JSON.stringify(res);
 					refresh();
 				});
 			}
 
 			function del(id){
 				mountain.model.delete(table, id).then(res => {
-					out.innerHTML = res;
+					out.innerHTML = JSON.stringify(res);
 					refresh();
 				});
 			}

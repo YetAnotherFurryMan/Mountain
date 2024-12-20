@@ -55,8 +55,8 @@ const mountain = {
 			if(!table)
 				throw "No table provided";
 
-			return fetch('/api/' + table + '/put', {
-				'method': 'post',
+			return fetch('/api/' + table, {
+				'method': 'put',
 				'headers': {
 					'Content-Type': 'application/json',
 				},
