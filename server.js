@@ -15,8 +15,13 @@ const server = {
 };
 
 function modelCallback(table, err, op){
-	if(err)
-		throw err;
+	if(!table) return;
+
+	if(err){
+		console.error('On table: ', table, ' while: ', op);
+		console.error(err);
+		abort();
+	}
 
 	if(op)
 		console.log('Done: ' + op + ' on ' + table);

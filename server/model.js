@@ -6,8 +6,10 @@ let g_db = undefined;
 let g_restrict = (req, res, next) => next();
 
 function defaultCallback(err){
-	if(err)
-		throw err;
+	if(err){
+		console.error(err);
+		abort();
+	}
 }
 
 function dbSection(call){
@@ -15,7 +17,7 @@ function dbSection(call){
 		throw "No db.";
 
 	const db = new sqlite3.Database(g_db);
-	db.serialize(() => {
+	db.parallelize(() => {
 		call(db);
 	});
 	db.close();
