@@ -13,7 +13,7 @@ git clone https://github.com/YetAnotherFurryMan/Mountain.git [Your App Name]
 cd [Your App Name]
 # Install dependences
 npm install
-# Run application to see if everythink is working fine
+# Run application to see if everything is working fine
 npm start
 ```
 Then you can start playing around. Inside `/app` directory you can put anything related to your application, but `app.js`, `model.json` and `config.json` are obligatory. The `app.js` is where you write the backend for your app, in `model.json` you describe the schema of the database and in `config.json` you can change the behavior of Mountain and list themes with corresponding variants. Furthermore, inside `/www` you will find four folders: `/public`, `/css`, `/private` and `/mountain`. The files in the first two are public for anyone, you can do whatever you want in there. Remember that there should be `index.html` and `login.html` inside `/public`, because Mountain sometimes redirects to them. The `/private` directory is, who would have thought, for logged-in users only, again you can do whatever you want, but Mountain expects `index.html` to be there. The last one, `/mountain`, is for the Mountain Public API, so you better leave it alone, nothing you cannot do with the `/public`, `/private` directories and `app.js` file. All your CSS you can put inside `www/css` folder together with themes. Each theme has its own folder in `www/css` with `theme.css` inside (this file describes what color to use and defaults), variants are other CSS files in theme's directory (they describe only colors).
