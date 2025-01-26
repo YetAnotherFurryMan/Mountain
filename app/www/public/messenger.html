@@ -14,7 +14,7 @@
 		<button onclick="clear2()">CLEAR</button>
 		<section id="out"></section>
 		<section id="list"></section>
-		<script src="mountain.js"></script>
+		<script src="/mountain.js"></script>
 		<script>
 			let out = document.getElementById('out');
 
@@ -23,8 +23,8 @@
 					let list = document.getElementById('list');
 					list.innerHTML = '';
 
-					if(res.messages){
-						for(let e of res.messages){
+					if(res.data.messages){
+						for(let e of res.data.messages){
 							let el = document.createElement('p');
 							el.style.borderTop = '5px solid gray';
 							el.innerHTML = e.type + ': ' + e.text;
@@ -38,7 +38,7 @@
 				let text = document.getElementById('text').value;
 				let type = document.getElementById('type').value;
 				mountain.messenger.put(text, type).then(res => {
-					out.innerHTML = res;
+					out.innerHTML = JSON.stringify(res);
 					refresh();
 				});
 			}

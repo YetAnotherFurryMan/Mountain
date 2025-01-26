@@ -1,17 +1,3 @@
 {
-  "server": {
-    "secret": "Mountain",
-    "port": 3030
-  },
-  "db": "data.db",
-  "themes": [
-    {
-      "name": "light",
-      "variants": ["light", "lighter"]
-    },
-    {
-      "name": "dark",
-      "variants": ["dark", "darker"]
-    }
-  ]
+  "name": "app"
 }

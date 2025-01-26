@@ -1,0 +1,7 @@
+{
+  "port": 3030,
+  "secret": "Mountain",
+  "app": [
+    "${CWD}/app"
+  ]
+}

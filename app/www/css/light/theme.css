@@ -1,0 +1,9 @@
+:root{
+	--bg: var(--variant-bg, #ddd);
+	--fg: var(--variang-fg, black);
+}
+
+body{
+	background-color: var(--bg);
+	color: var(--fg);
+}

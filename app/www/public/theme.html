@@ -3,8 +3,8 @@
 	<head>
 		<title>Montain Themes</title>
 		<meta charset="UTF-8" />
-		<link rel="Stylesheet" href="/theme" />
-		<link rel="Stylesheet" href="/variant" />
+		<link rel="Stylesheet" href="theme" />
+		<link rel="Stylesheet" href="variant" />
 	</head>
 	<body>
 		<script src="/mountain.js"></script>
@@ -18,9 +18,9 @@
 		const themes = document.getElementById('themes');
 		const variants = document.getElementById('variants');
 		mountain.theme.list().then(res => {
-			current.innerHTML = 'Current: ' + res.current.name + ' - ' + res.current.variant;
+			current.innerHTML = 'Current: ' + res.data.current.theme + ' - ' + res.data.current.variant;
 
-			for(let name of res.names){
+			for(let [name, _] of Object.entries(res.data.themes)){
 				let btn = document.createElement("button");
 				btn.innerHTML = name;
 				btn.addEventListener('click', () => {
@@ -32,7 +32,7 @@
 				themes.appendChild(btn);
 			}
 
-			for(let name of res.themes[res.current.name]){
+			for(let name of res.data.themes[res.data.current.theme]){
 				let btn = document.createElement("button");
 				btn.innerHTML = name;
 				btn.addEventListener('click', () => {
