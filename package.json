@@ -11,7 +11,6 @@
   "dependencies": {
     "express": "^4.21.1",
     "express-session": "^1.18.1",
-    "pbkdf2-password": "^1.2.1",
-    "sqlite3": "^5.1.7"
+    "pbkdf2-password": "^1.2.1"
   }
 }
