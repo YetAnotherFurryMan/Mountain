@@ -15,12 +15,6 @@ const themes = {
 	'light': ['light', 'lighter']
 };
 
-// let app = {
-// 	'config': require('./app/config.json'),
-// 	'model': require('./app/model.json'),
-// 	'app': require('./app/app.js'),
-// };
-
 const ex = express();
 ex.use(session({
 	resave: false,
@@ -72,31 +66,6 @@ function deathcall(){
 	console.log('Shutting down the server...');
 	process.exit(0);
 }
-
-const s = {
-	tables: {
-		'tab1': {
-			columns: {
-				'col1': { type: 'INT' },
-				'col2': { type: 'INT' },
-				'col3': { type: 'TEXT'}
-			}
-		}
-	}
-};
-
-model.apply(s);
-
-const slt = model.select.tab1({order: {id: 'DESC'}});
-let idx = [];
-for(let row of model.select.tab1({id: {type: '>', value: 2}, col1: '2'})){
-	idx.push(row.id);
-}
-
-console.log(model.delete['tab1'](idx));
-console.log(model.insert['tab1']({'col1': slt[0].col1 + 1, 'col2': slt[0].col2 + 11, 'col3': (slt[0].col2 + 11) + ""}));
-console.log(model.update['tab1'](slt[1].id, {'col3': 'This is text ' + slt[1].col2}));
-console.log(model.select['tab1']());
 
 process.on('SIGINT', deathcall);  // CTRL+C
 process.on('SIGQUIT', deathcall); // Keyboard quit
