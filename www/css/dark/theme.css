@@ -1,6 +1,6 @@
 :root{
 	--bg: var(--variant-bg, #333);
-	--fg: var(--variang-fg, white);
+	--fg: var(--variant-fg, white);
 }
 
 body{

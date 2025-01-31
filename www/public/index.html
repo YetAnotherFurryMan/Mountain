@@ -2,14 +2,51 @@
 <html lang="en">
 	<head>
 		<title>Montain Login</title>
+		<link rel="icon" href="/favicon.png" />
 		<meta charset="UTF-8" />
+		<link rel="Stylesheet" href="/variant" />
+		<link rel="Stylesheet" href="/theme" />
+		<link rel="Stylesheet" href="/css/bootstrap.css" />
+		<link rel="Stylesheet" href="/css/main.css" />
 	</head>
-	<body>
-		<h1>Mountain Login</h1>
-		<form action="/login" method="post">
-			<input type="text" name="login" placeholder="LOGIN" />
-			<input type="password" name="pass" placeholder="PASSWORD" />
-			<button type="submit">GO</button>
-		</form>
+	<script>
+		function loaded(){
+			const top_bar = document.getElementById('top_bar');
+
+			let toggle_theme_btn = document.createElement('button');
+			top_bar.appendChild(toggle_theme_btn);
+
+			fetch('/api/theme/list', {
+				'method': 'post'
+			}).then(res => res.json()).then(theme => {
+				let next_theme = theme.data.current.theme;
+				if(next_theme == 'dark') next_theme = 'light';
+				else next_theme = 'dark';
+
+				toggle_theme_btn.innerHTML = next_theme;
+				toggle_theme_btn.addEventListener('click', () => {
+					fetch('/api/theme', {
+						'method': 'put',
+						'headers': {
+							'Content-Type': 'application/json'
+						},
+						'body': JSON.stringify({'theme': next_theme})
+					}).then(res => res.json()).then(res => {
+						location.reload();
+					});
+				});
+			});	
+		}
+	</script>
+	<body onload="loaded()">
+		<section class="w-100 right" id="top_bar"></section>
+		<section class="w-100 center">
+			<h1>Mountain Login</h1>
+			<form action="/login" method="post">
+				<input type="text" name="login" placeholder="LOGIN" />
+				<input type="password" name="pass" placeholder="PASSWORD" />
+				<button type="submit">GO</button>
+			</form>
+		<section>
 	</body>
 </html>
