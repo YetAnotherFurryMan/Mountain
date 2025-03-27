@@ -54,6 +54,18 @@ for(let path of config.app){
 	}
 }
 
+let appEntry = new core.APIEntry();
+appEntry.post('list', (req) => {
+	// TODO: There are all names in core.app
+	let names = []
+	for(var app of apps){
+		names.push(app.config.name);
+	}
+	return names;
+});
+
+api.addEntry('app', appEntry);
+
 // Pernament redirects
 ex.post('/login', (req, res) => { res.redirect(308, '/api/user/login'); });
 ex.all('/logout', (req, res) => { res.redirect(308, '/api/user/logout'); });

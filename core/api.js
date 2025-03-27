@@ -6,9 +6,6 @@ function APIEntry(){
 		'post': new Set(),
 		'put': new Set(),
 		'delete': new Set(),
-		'rpost': new Set(),
-		'rput': new Set(),
-		'rdelete': new Set()
 	};
 
 	this.postMidHnd = (name, middle, handler) => {
@@ -47,6 +44,7 @@ function APIEntry(){
 	this.delete = (name, fn) => { this.deleteHnd(name, makeDefaultHandler(fn)); };
 
 	const restrict = (res, req, next) => {
+		req = req.req;
 		if(req.session.user){
 			next();
 		} else {

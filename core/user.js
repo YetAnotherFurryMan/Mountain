@@ -66,11 +66,11 @@ function User(model, messenger){
 	      		req.session.regenerate(() => {
 	        		req.session.user = user;
 	        		this.messenger.put(req, 'Authenticated as ' + user.name, 'succes');
-	        		res.redirect('/app');
+	        		res.redirect('/');
 	      		});
 	    	} else {
 	      		this.messenger.put(req, 'Authentication failed', 'error');
-	      		res.redirect('/');
+	      		res.redirect('/login.html');
 	    	}
 	  	});
 	});

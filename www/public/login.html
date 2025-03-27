@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Montain</title>
+		<title>Montain Login</title>
 		<link rel="icon" href="/favicon.png" />
 		<meta charset="UTF-8" />
 		<link rel="Stylesheet" href="/variant" />
@@ -12,27 +12,6 @@
 	<script>
 		function loaded(){
 			const top_bar = document.getElementById('top_bar');
-
-			let logio_btn = document.createElement('button');
-			top_bar.appendChild(logio_btn);
-
-			fetch('/api/user/name', {
-				'method': 'post'
-			}).then(res => res.text()).then(res => {
-				if(res == ''){
-					logio_btn.innerHTML = 'login';
-					logio_btn.addEventListener('click', () => {
-						location = '/login.html';
-					});
-				} else {
-					logio_btn.innerHTML = 'logout';
-					logio_btn.addEventListener('click', () => {
-						fetch('/logout').then(res => {
-							location.reload();
-						});
-					});
-				}
-			});
 
 			let toggle_theme_btn = document.createElement('button');
 			top_bar.appendChild(toggle_theme_btn);
@@ -56,23 +35,18 @@
 						location.reload();
 					});
 				});
-			});
-
-			fetch('/api/app/list', {
-				'method': 'post'
-			}).then(res => res.json()).then(res => {
-				let apps = document.getElementById('apps');
-				for(let name of res.data){
-					apps.innerHTML += '<a href="/' + name + '">' + name + '</a>'
-				}
-			});
+			});	
 		}
 	</script>
 	<body onload="loaded()">
 		<section class="w-100 right" id="top_bar"></section>
 		<section class="w-100 center">
-			<h1>Mountain</h1>
-			<section class="w-75" id="apps"></section>
+			<h1>Mountain Login</h1>
+			<form action="/login" method="post">
+				<input type="text" name="login" placeholder="LOGIN" />
+				<input type="password" name="pass" placeholder="PASSWORD" />
+				<button type="submit">GO</button>
+			</form>
 		<section>
 	</body>
 </html>
