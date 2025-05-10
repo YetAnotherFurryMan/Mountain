@@ -1,4 +1,8 @@
 :root{
-	--variant-bg: #eee;
-	--variant-fg: black;
+	--variant-bg1: #eee;
+	--variant-fg1: black;
+	--variant-bg2: #ddd;
+	--variant-fg2: black;
+	--variant-primary: #ccc;
+	--variant-secondary: black;
 }

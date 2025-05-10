@@ -1,9 +1,27 @@
 :root{
-	--bg: var(--variant-bg, #ddd);
-	--fg: var(--variant-fg, black);
+	--bg1: var(--variant-bg1, #ddd);
+	--fg1: var(--variant-fg1, black);
+	--bg2: var(--variant-bg2, #bebebe);
+	--fg2: var(--variant-fg2, black);
+	--primary: var(--variant-primary, #bbb);
+	--secondary: var(--variant-secondary, black);
 }
 
 body{
-	background-color: var(--bg);
-	color: var(--fg);
+	background-color: var(--bg1);
+	color: var(--fg1);
+}
+
+.btn{
+	background-color: var(--primary);
+	color: var(--secondary);
+}
+
+.clickable:hover {
+	filter: brightness(80%);
+}
+
+.panel{
+	background-color: var(--bg2);
+	color: var(--fg2);
 }
